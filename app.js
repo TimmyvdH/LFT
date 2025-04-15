@@ -142,6 +142,14 @@ function renderChart() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM volledig geladen");
+  const saveBtn = document.getElementById("save-day-btn");
+  if (saveBtn) {
+    console.log("Save-knop gevonden en gekoppeld.");
+    saveBtn.addEventListener("click", saveToday);
+  } else {
+    console.warn("Save-knop niet gevonden!");
+  }
   const saveBtn = document.getElementById("save-day-btn");
   if (saveBtn) saveBtn.addEventListener("click", saveToday);
   createCheckboxList(dailyHabits, "daily-container", "daily");
@@ -155,6 +163,29 @@ function saveToday() {
   const checkboxes = document.querySelectorAll("#daily-container input[type='checkbox']");
   const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
   const score = Math.round((checked / dailyHabits.length) * 100);
+
+  const scores = JSON.parse(localStorage.getItem("dailyScores")) || [];
+  scores.unshift({ date: getTodayKey(), score });
+  localStorage.setItem("dailyScores", JSON.stringify(scores.slice(0, 14)));
+
+  localStorage.removeItem(key);
+  createCheckboxList(dailyHabits, "daily-container", "daily");
+
+  alert(`Dag opgeslagen: ${score}% voltooid. Checklist is gereset.`);
+}
+
+
+function saveToday() {
+  console.log("Klik op dag opslaan gedetecteerd");
+  const key = "dailyState_" + getTodayKey();
+  const checkboxes = document.querySelectorAll("#daily-container input[type='checkbox']");
+  if (!checkboxes.length) {
+    console.warn("Geen checkboxen gevonden in daily-container");
+    return;
+  }
+  const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+  const score = Math.round((checked / dailyHabits.length) * 100);
+  console.log("Aantal vinkjes:", checked, "/", dailyHabits.length, "Score:", score);
 
   const scores = JSON.parse(localStorage.getItem("dailyScores")) || [];
   scores.unshift({ date: getTodayKey(), score });
