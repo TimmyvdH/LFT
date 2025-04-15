@@ -4,45 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lifestyle Tracker</title>
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="app.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-900">
-  <div class="p-6 max-w-2xl mx-auto">
+  <div class="p-6 max-w-3xl mx-auto">
     <h1 class="text-2xl font-bold mb-4">Dagelijkse Tracker</h1>
     <div id="daily-container" class="mb-4"></div>
-<p id="daily-progress" class="mb-4 text-sm text-gray-700"></p>
-<button id="save-day-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mb-8">
-  Dag opslaan
-</button>
-    <p id="daily-progress" class="mb-8 text-sm text-gray-700"></p>
-
-    <h1 class="text-2xl font-bold mb-4">Wekelijkse Tracker</h1>
-    <div id="weekly-container" class="mb-4"></div>
-    <p id="weekly-progress" class="mb-8 text-sm text-gray-700"></p>
-
-    <h2 class="text-xl font-semibold mb-2">Notities / Reflectie</h2>
-    <textarea id="notes" class="w-full p-2 border rounded mb-4" rows="4" placeholder="Schrijf hier je reflectie of opmerkingen..."></textarea>
-
-    <button onclick="resetAll()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mb-6">
-      Reset week & opslaan
+    <p id="daily-progress" class="mb-4 text-sm text-gray-700"></p>
+    <button id="save-day-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mb-8">
+      Dag opslaan
     </button>
-
-    <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-2">Vorige weken</h2>
-      <ul id="stats-container"></ul>
-    </div>
-
-    <div class="p-4 bg-blue-100 border border-blue-300 rounded mb-4">
-      <h2 class="font-bold mb-2">Jouw nieuwe advies</h2>
-      <p id="new-advice"></p>
-    </div>
-
-    <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-2">Voortgang in grafiek</h2>
-      <canvas id="progressChart" height="200"></canvas>
-    </div>
   </div>
 </body>
 </html>
