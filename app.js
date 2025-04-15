@@ -68,7 +68,9 @@ function resetAll() {
   const dailyScore = Math.round((Array.from(dailyChecks).filter(cb => cb.checked).length / dailyChecks.length) * 100);
   const weeklyScore = Math.round((Array.from(weeklyChecks).filter(cb => cb.checked).length / weeklyChecks.length) * 100);
 
-  const advice = generateAdvice(dailyScore, weeklyScore);
+  const advice = weeklyScore < 70 || dailyScore < 70
+    ? "Je hebt jezelf weer eens niet serieus genomen deze week. Dit niveau gaat je doelen niet dichterbij brengen."
+    : "Prima week, maar je weet dat je beter kunt. Blijf scherp."; generateAdvice(dailyScore, weeklyScore);
   const notes = document.getElementById("notes").value;
   const date = new Date().toLocaleDateString();
 
@@ -140,8 +142,26 @@ function renderChart() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const saveBtn = document.getElementById("save-day-btn");
+  if (saveBtn) saveBtn.addEventListener("click", saveToday);
   createCheckboxList(dailyHabits, "daily-container", "daily");
   createCheckboxList(weeklyHabits, "weekly-container", "weekly");
   renderStats();
   renderChart();
 });
+
+function saveToday() {
+  const key = "dailyState_" + getTodayKey();
+  const checkboxes = document.querySelectorAll("#daily-container input[type='checkbox']");
+  const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+  const score = Math.round((checked / dailyHabits.length) * 100);
+
+  const scores = JSON.parse(localStorage.getItem("dailyScores")) || [];
+  scores.unshift({ date: getTodayKey(), score });
+  localStorage.setItem("dailyScores", JSON.stringify(scores.slice(0, 14)));
+
+  localStorage.removeItem(key);
+  createCheckboxList(dailyHabits, "daily-container", "daily");
+
+  alert(`Dag opgeslagen: ${score}% voltooid. Checklist is gereset.`);
+}
